@@ -437,6 +437,8 @@ globalkeys = my_table.join(
              {description = "decrease brightness", group ="hotkeys"}),
     awful.key({"Shift", "Control"},"b",nil,
              {description = "start browser", group ="launcher"}),
+    awful.key({"Shift", "Control"},"t",nil,
+             {description = "start filemanager", group ="launcher"}),
     awful.key({"Shift", "Control"},"e",nil,
              {description = "start email", group ="launcher"}),
     awful.key({"Shift", "Control"},"r",nil,
