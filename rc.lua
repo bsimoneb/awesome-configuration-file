@@ -15,6 +15,7 @@ local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local lain          = require("lain")
+local xrandr        = require("lain.widget.xrandr")
 --local menubar       = require("menubar")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
@@ -312,6 +313,8 @@ globalkeys = my_table.join(
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
+    awful.key({modkey, "Shift", "Control"}, "m", function() xrandr.xrandr() end,
+    	      {description = "change monitor configuration", group="client"}),
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
@@ -437,7 +440,7 @@ globalkeys = my_table.join(
              {description = "decrease brightness", group ="hotkeys"}),
     awful.key({"Shift", "Control"},"b",nil,
              {description = "start browser", group ="launcher"}),
-    awful.key({"Shift", "Control"},"t",nil,
+    awful.key({"Control"},"Return",nil,
              {description = "start filemanager", group ="launcher"}),
     awful.key({"Shift", "Control"},"e",nil,
              {description = "start email", group ="launcher"}),
@@ -591,18 +594,9 @@ awful.rules.rules = {
       properties = { titlebars_enabled = false } },
 
     -- Set Firefox to always map on the first tag on screen 1.
-    { rule = { class = "Firefox" },
-       callback = function(c)
-                     if screen.count() == 2 then
-                      -- c:tags({tags[2][2]})
-		      	 c:tags({screen[2].tags[2]})
-                     else
-		         c:tags({screen[1].tags[2]})
-                    --   c:tags({tags[1][2]})
-                     end
-
-                end, 
-	properties = {switchtotag=true}
+    --s2 = screen:count()
+    { rule_any = { class = {"Firefox", "Vivaldi-stable", "Google-chrome"}},
+	properties = {tag= "www",screen=screen.count(), switchtotag=true}
 },
 
 

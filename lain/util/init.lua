@@ -101,7 +101,7 @@ function util.tag_view_nonempty(direction, sc)
 
    for i = 1, #s.tags do
        awful.tag.viewidx(direction, s)
-       if #s.clients > 0 then
+       if #s.clients > 1 then
            return
        end
    end
