@@ -54,13 +54,20 @@ end
 -- {{{ Autostart windowless processes
 
 -- This function will run once every time Awesome is started
+-- Auto-run
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
-        awful.spawn.with_shell(string.format("pgrep -u $USER -fx '%s' > /dev/null; or %s", cmd, cmd))
+        findme = cmd
+        firstspace = cmd:find(" ")
+        if firstspace then
+            findme = cmd:sub(0, firstspace-1)
+        end
+        awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, 
+cmd))
     end
 end
 
-run_once({"unclutter -root","conky","sxhkd" }) -- entries must be separated by commas
+run_once({"unclutter -root","conky","sxhkd", "psensor" }) -- entries must be separated by commas
 
 local themes = {
     "blackburn",       -- 1
@@ -412,8 +419,8 @@ globalkeys = my_table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Dropdown application
-    awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end,
-              {description = "dropdown application", group = "launcher"}),
+    --awful.key({ modkey, }, "z", function () awful.screen.focused().quake:toggle() end,
+    --          {description = "dropdown application", group = "launcher"}),
 
     -- Widgets popups
     awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
@@ -425,6 +432,13 @@ globalkeys = my_table.join(
 
     --]]
     --Fake Launchers
+    awful.key({modkey}, 'z',
+    function()
+      awful.spawn('rofi -combi-modi window,drun -show combi -modi combi')
+    end,
+    {description = 'Rofi menu', group = 'awesome'}
+    ),
+
     awful.key({altkey},"Up",nil,
              {description = "increase volume", group ="hotkeys"}),
     awful.key({altkey},"Down",nil,
@@ -438,17 +452,17 @@ globalkeys = my_table.join(
              {description = "increase brightness", group ="hotkeys"}),
     awful.key({altkey,"Control"},"Down",nil,
              {description = "decrease brightness", group ="hotkeys"}),
-    awful.key({"Shift", "Control"},"b",nil,
+    awful.key({modkey, "Control"},"b",nil,
              {description = "start browser", group ="launcher"}),
-    awful.key({"Control"},"Return",nil,
+    awful.key({modkey, "Control"},"Return",nil,
              {description = "start filemanager", group ="launcher"}),
-    awful.key({"Shift", "Control"},"e",nil,
+    awful.key({modkey, "Control"},"e",nil,
              {description = "start email", group ="launcher"}),
-    awful.key({"Shift", "Control"},"r",nil,
-             {description = "start foxit reader", group ="launcher"}),
-    awful.key({"Shift", "Control"},"s",nil,
+    awful.key({modkey, "Control"},"r",nil,
+             {description = "start calibre", group ="launcher"}),
+    awful.key({modkey, "Control"},"s",nil,
 	     {description = "start spotify", group ="launcher"}),
-    awful.key({"Shift", "Control"},"w",nil,
+    awful.key({modkey, "Control"},"w",nil,
              {description = "start sublime", group ="launcher"}),
     awful.key({modkey},"Return",nil,
              {description = "start terminal", group ="launcher"}),

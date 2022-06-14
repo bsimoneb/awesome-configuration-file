@@ -169,13 +169,14 @@ local bat = lain.widget.bat({
 
 })
 
-local temp = lain.widget.temp({
-    settings = function()
-	    temp_header = "Cpu: "
-	    temp_p = coretemp_now .. "°C "
-        widget:set_markup(markup.font(theme.font, temp_header .. temp_p))
-    end
-})
+
+--local temp = lain.widget.temp({
+--    settings = function()
+--	    temp_header = "Cpu: "
+--	    temp_p = coretemp_now .. "°C "
+--        widget:set_markup(markup.font(theme.font, temp_header .. temp_p))
+--    end
+--})
 
 -- Wifi carrier and signal strength
 local wificon = wibox.widget.imagebox(theme.wifidisc)
@@ -352,7 +353,7 @@ function theme.at_screen_connect(s)
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             --theme.mail.widget,
-	    temp.widget,
+	    --temp.widget,
 	    --battery_icon,
             bat.widget,
 	    --volume_icon,
